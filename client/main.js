@@ -3,6 +3,16 @@ import { render } from 'react-dom'
 
 import '/both'
 
+function Root () {
+  return (
+    <div className='flex' id="main">
+      <div className='flex-1x'>
+        <App />
+      </div>
+    </div>
+  )
+}
+
 function App () {
   return (
     <>
@@ -14,6 +24,14 @@ function App () {
 }
 
 function Toolbar () {
+  const attachNewList = () => {
+    const $main = document.getElementById('main')
+    const $div = document.createElement('div')
+    $div.classList.add('flex-1x')
+    render(<App />, $div)
+    $main.appendChild($div)
+  }
+
   return (
     <Reactor>
       {() => (
@@ -21,6 +39,7 @@ function Toolbar () {
           <button onClick={() => Meteor.call('todosFilterAll')}>显示所有</button>
           <button onClick={() => Meteor.call('todosFilterCompleted')}>显示已完成</button>
           <button onClick={() => Meteor.call('todosFilterDisabled')}>显示已关闭</button>
+          <button onClick={() => attachNewList()}>增加一个 tab</button>
         </div>
       )}
     </Reactor>
@@ -84,31 +103,31 @@ function TodosItem (todo) {
       {({ state, setState, _id, text, isCompleted, isDisabled }) => (
         <div>
           <span className={`${isCompleted ? 'green' : ''} ${isDisabled ? 'strike' : ''}`}>{text}</span>
-          {!isDisabled && <label className='mgr' onClick={() => Meteor.call('todosToggleComplete', _id, isCompleted)}>
+          {!isDisabled && <label className='mgr-sm' onClick={() => Meteor.call('todosToggleComplete', _id, isCompleted)}>
             <input type='checkbox' defaultChecked={isCompleted} />
             <span>完成</span>
           </label>}
 
-          {!isCompleted && <label className='mgr' onClick={() => Meteor.call('todosToggleDisable', _id, isDisabled)}>
+          {!isCompleted && <label className='mgr-sm' onClick={() => Meteor.call('todosToggleDisable', _id, isDisabled)}>
             <input type='checkbox' defaultChecked={isDisabled} />
             <span>关闭</span>
           </label>}
 
-          {(!isCompleted && !isDisabled) && <label className='mgr' onClick={() => Meteor.call('todosRemove', _id)}>
+          {(!isCompleted && !isDisabled) && <label className='mgr-sm' onClick={() => Meteor.call('todosRemove', _id)}>
             <span>删除</span>
           </label>}
 
-          <label className='mgr' onClick={() => {
+          <label className='mgr-sm' onClick={() => {
             setState({ openTodoForm: !state.openTodoForm })
           }}>
             <span>子任务</span>
           </label>
 
           {state.openTodoForm && (
-            <>
+            <div className='mgl-md'>
               <TodoForm parentId={todo._id} />
               <TodosChildrenList parentId={todo._id} />
-            </>
+            </div>
           )}
           {console.log('inside LocalReactor', todo._id)}
         </div>
@@ -146,5 +165,5 @@ class LocalReactor extends PureComponent {
 }
 
 Meteor.startup(function () {
-  render(<App />, document.getElementById('app'))
+  render(<Root />, document.getElementById('root'))
 })

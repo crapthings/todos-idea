@@ -6,6 +6,18 @@
   text-decoration: line-through;
 }
 
-.mgr {
+.mgr-sm {
   margin-right: 8px;
+}
+
+.mgl-md {
+  margin-left: 24px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-1x {
+  flex: 1;
 }

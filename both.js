@@ -4,7 +4,7 @@ _ = require('lodash')
 CTX = {
   // 我们用 meteor 技术，所以数据围绕着一个智能的数据集合
   collections: {
-    todos: new Mongo.Collection('todos', { connection: null }), // 我们这里不需要存数据库，链接设置空
+    todos: new Mongo.Collection('todos'), // 我们这里不需要存数据库，链接设置空
   },
   state: new ReactiveDict(),
 }

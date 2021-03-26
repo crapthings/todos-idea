@@ -53,6 +53,9 @@ Meteor.Actions({
   'todosRemove' (_id) {
     Todos.remove({ $or: [{ _id }, { parentId: _id }] })
   },
+  'todosRemoveAll' () {
+    Todos.remove({})
+  },
   'todosFilterAll': {},
   'todosFilterCompleted': { isCompleted: true },
   'todosFilterDisabled': { isDisabled: true },

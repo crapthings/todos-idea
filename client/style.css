@@ -21,3 +21,8 @@
 .flex-1x {
   flex: 1;
 }
+
+.todo-item {
+  will-change: auto;
+  will-change: transform;
+}

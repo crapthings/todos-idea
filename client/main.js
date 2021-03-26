@@ -36,6 +36,7 @@ function Toolbar () {
     <Reactor>
       {() => (
         <div>
+          <button onClick={() => Meteor.call('todosRemoveAll')}>删除</button>
           <button onClick={() => Meteor.call('todosFilterAll')}>显示所有</button>
           <button onClick={() => Meteor.call('todosFilterCompleted')}>显示已完成</button>
           <button onClick={() => Meteor.call('todosFilterDisabled')}>显示已关闭</button>
@@ -98,10 +99,11 @@ function TodosChildrenList ({ parentId }) {
 
 function TodosItem (todo) {
   console.log('before LocalReactor', todo._id)
+
   return (
     <LocalReactor key={todo._id} state={{ openTodoForm: false }} {...todo}>
       {({ state, setState, _id, text, isCompleted, isDisabled }) => (
-        <div>
+        <div className='todo-item animate__animated animate__slideInLeft animate__faster' >
           <span className={`${isCompleted ? 'green' : ''} ${isDisabled ? 'strike' : ''}`}>{text}</span>
           {!isDisabled && <label className='mgr-sm' onClick={() => Meteor.call('todosToggleComplete', _id, isCompleted)}>
             <input type='checkbox' defaultChecked={isCompleted} />
@@ -154,7 +156,7 @@ function Reactor ({ data, children }) {
 }
 
 class LocalReactor extends PureComponent {
-  state = this.props.state || {}
+  state = this.props || {}
   render () {
     return this.props.children({
       ...this.props,

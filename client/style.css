@@ -1,0 +1,11 @@
+.green {
+  color: green;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.mgr {
+  margin-right: 8px;
+}

@@ -156,7 +156,7 @@ function Reactor ({ data, children }) {
 }
 
 class LocalReactor extends PureComponent {
-  state = this.props || {}
+  state = this.props.state || {}
   render () {
     return this.props.children({
       ...this.props,
